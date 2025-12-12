@@ -2,13 +2,13 @@ package com.dam.mgr.buffet;
 
 public class Principal {
     public static void main(String[] args) {
-        Buffet buffet = new Buffet(20);
+        Contenedor contenedor = new Contenedor(20);
 
-        Cocinero cocinero = new Cocinero(buffet);
+        Cocinero cocinero = new Cocinero(contenedor);
         cocinero.start();
 
         for (int i = 0; i < 5; i++) {
-            new Comensal(buffet).start();
+            new Comensal(contenedor).start();
         }
     }
 }
