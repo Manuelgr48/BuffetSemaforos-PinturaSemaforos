@@ -1,4 +1,4 @@
-package com.dam.mgr;
+package com.dam.mgr.buffet;
 
 public class Principal {
     public static void main(String[] args) {

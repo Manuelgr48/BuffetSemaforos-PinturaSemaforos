@@ -1,4 +1,4 @@
-package com.dam.mgr;
+package com.dam.mgr.buffet;
 
 import java.util.concurrent.Semaphore;
 

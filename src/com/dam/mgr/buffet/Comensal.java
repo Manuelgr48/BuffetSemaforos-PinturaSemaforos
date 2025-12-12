@@ -1,12 +1,12 @@
-package com.dam.mgr;
+package com.dam.mgr.buffet;
 
 import java.util.Random;
 
-public class Cocinero extends Thread {
+public class Comensal extends Thread {
     private Buffet buffet;
     private Random random;
 
-    public Cocinero(Buffet buffet) {
+    public Comensal(Buffet buffet) {
         this.buffet = buffet;
         this.random = new Random();
     }
@@ -15,10 +15,10 @@ public class Cocinero extends Thread {
     public void run() {
         while (true) {
             try {
-                int tiempoReponer = 1 + random.nextInt(5);
-                Thread.sleep(tiempoReponer);
+                buffet.cogerPlato();
 
-                buffet.reponerPlatos(10);
+                int tiempoComer = 1 + random.nextInt(3);
+                Thread.sleep(tiempoComer);
 
                 Thread.sleep(5);
             } catch (InterruptedException e) {
