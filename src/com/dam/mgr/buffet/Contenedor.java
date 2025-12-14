@@ -1,15 +1,20 @@
 package com.dam.mgr.buffet;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
 public class Contenedor {
-    private int platos;
+    private Queue<Integer> platos;
+
     private Semaphore semPlatos;
     private Semaphore semHuecos;
     private Semaphore mutex;
 
+    private int contadorIdPlato = 0;
+
     public Contenedor(int capacidad) {
-        this.platos = 0;
+        this.platos = new LinkedList<>();
         this.semPlatos = new Semaphore(0);
         this.semHuecos = new Semaphore(capacidad);
         this.mutex = new Semaphore(1);
@@ -17,22 +22,24 @@ public class Contenedor {
 
     public void reponer(int cantidad) throws InterruptedException {
         semHuecos.acquire(cantidad);
+
         mutex.acquire();
-
-        platos += cantidad;
-        System.out.println("Cocinero ha repuesto " + cantidad + " platos. Total: " + platos);
-
+        for (int i = 0; i < cantidad; i++) {
+            contadorIdPlato++;
+            platos.add(contadorIdPlato);
+        }
+        System.out.println("Cocinero ha repuesto " + cantidad + " platos. Mostrador: " + platos);
         mutex.release();
+
         semPlatos.release(cantidad);
     }
 
     public void coger() throws InterruptedException {
         semPlatos.acquire();
+
         mutex.acquire();
-
-        platos--;
-        System.out.println("Comensal ha cogido un plato. Quedan: " + platos);
-
+        Integer platoComido = platos.poll();
+        System.out.println("Comensal  ha comido el plato #" + platoComido + " Quedan: " + platos.size());
         mutex.release();
         semHuecos.release();
     }
